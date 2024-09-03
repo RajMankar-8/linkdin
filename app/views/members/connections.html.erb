@@ -1,0 +1,39 @@
+<div class="col-lg-10 mx-auto mt-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <p class="lead fw-bold">About <%= pluralize(@total_connections, "result")%></p>
+      <% if @connected_users.present? %>
+        <% @connected_users.each do |user| %> 
+         <div class="card mb-2">
+           <div class="col-lg-2">
+             <%= image_tag "user_image.png", style: "width: 90px; border-radius: 50px; margin: 5px;"%>
+           </div>
+           <div class="col-lg-10">
+              <div class="card-body">
+                <%= link_to member_path(user), style: 'text-decoration: none;', target: "_blank" do %>
+                 <h4 style="margin-bottom: -2px;"><%= user.name %></h4>
+                <% end %>
+
+                <% if current_user != @user %>
+                  <% mutual_connection_count =  current_user.mutually_connected_ids(@user)&.count %>
+                <% else %>
+                  <% mutual_connection_count =  current_user.mutually_connected_ids(user)&.count %>
+                <% end %>
+                  <% if mutual_connection_count > 0 %>
+                    <%= link_to "javascript:void(0)", style: 'text-decoration:none;', target: "_blank" do %>
+                    <small class="text-muted"><%= link_to pluralize(mutual_connection_count, 'mutual connection'), member_connections_path(user, mutual_connections: true), class:'text-primary text-decoration-none' %></small><br>
+                    <% end %>
+                  <% end %>
+
+                <small class="text-muted"><%= user.profile_title %></small><br>
+                <small class="text-muted"><%= user.address %></small>
+              </div>             
+           </div>
+         </div>
+        <% end %>
+      <% end %>
+
+      <%= paginate @connected_users %>
+    </div>
+  </div>
+</div>

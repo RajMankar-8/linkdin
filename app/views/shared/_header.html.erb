@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-white">
+  <div class="container-fluid">
+    <%= link_to root_path do %>
+      <%= image_tag "linkdin-logo.png", class:"img-fluid", style:"max-width:35px;"%>
+    <% end  %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-3">
+          <%= link_to root_path , class:"text-decoration-none text-dark" do %>
+            <i class="fa-solid fa-house ms-1" style="font-size: 22px;"></i>
+            <br>
+            <span>Home</span>
+          <% end  %>
+        </li>
+        <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to "My Profile", member_path(current_user), class:"nav-link active text-dark"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "My Network", connections_path, class:"nav-link active text-dark"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign Out", destroy_user_session_path, data: {turbo_method: :delete, turbo_confirm: "Are ypu sure you want to sign out? "}, class:"nav-link active text-dark"%>
+        </li> 
+        <% else %>
+        <%= link_to "Sign In", new_user_session_path, class:"nav-link active text-dark"%>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
