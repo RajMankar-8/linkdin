@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable, :confirmable,
          authentication_keys: [:login]
 
+  after_create :confirm_user
+
   attr_accessor :login  # Add this line
 
   has_many :work_experiences, dependent: :destroy 
@@ -59,5 +61,12 @@ class User < ApplicationRecord
 
   def mutually_connected_ids(user)
     self.connected_user_ids.intersection(user.connected_user_ids)
+  end
+
+  private
+
+  def confirm_user
+    self.confirm
+    save
   end
 end
